@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">CurrencyConverterWithApi</string>
+    <string name="currency_converter">Currency Converter</string>
+    <string name="from">From: </string>
+    <string name = "about">About</string>
+    <string name="to">To: </string>
+    <string name="convert">Convert</string>
+    <string name="usd">USD</string>
+    <string name="gbp">GBP</string>
+    <string name="eur">EUR</string>
+    <string name="cad">CAD</string>
+    <string name="zar">ZAR</string>
+    <string name="curr">SELECT CURRENCY</string>
+    <string name="hint">Enter Value!</string>
+    <string name="result">""</string>
+    <string-array name="spinnerFrom">
+        <item>@string/curr</item>
+        <item>@string/eur</item>
+        <item>@string/usd</item>
+        <item>@string/gbp</item>
+        <item>@string/cad</item>
+        <item>@string/zar</item>
+
+    </string-array>
+
+    <string-array name="spinnerTo">
+        <item>@string/curr</item>
+        <item>@string/eur</item>
+        <item>@string/usd</item>
+        <item>@string/gbp</item>
+        <item>@string/cad</item>
+        <item>@string/zar</item>
+    </string-array>
+
+</resources>
