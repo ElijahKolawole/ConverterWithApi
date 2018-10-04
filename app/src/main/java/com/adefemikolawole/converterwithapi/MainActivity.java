@@ -1,5 +1,6 @@
 package com.adefemikolawole.converterwithapi;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void setTvResult(){
         getUSerInput();
-        if (userInput <=9900.00) {
+        if (userInput <= 9999.00) {
             tvResult.setText(String.valueOf(userInput));
         }
         else{
-            tvResult.setText("10,000.00 is the maximum value allowed");
+            tvResult.setText("9,999.00 is the maximum value allowed");
         }
     }
 
@@ -83,11 +93,47 @@ public class MainActivity extends AppCompatActivity {
                 //result = tvResult.getText().toString();
 
                 setTvResult();
-               // tvResult.setText(result);
+
+                String dataAddress = "http://data.fixer.io/api/latest?access_key=b70449fc1a6ad33f2940bfdbcf125c41";
+
+                HttpURLConnection connection;
+
+                try{
+                    URL url = new URL(dataAddress);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
+
+                    InputStream stream = connection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+
+                    String line = 
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, e.toString());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, e.toString());
+                }
+                // tvResult.setText(result);
             }
         });
 
 
 
+    }
+
+    public class JSONTask extends AsyncTask<String, String, String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }
