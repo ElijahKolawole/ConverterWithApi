@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         Log.e(TAG, "Starting Application here...");
         System.out.println("Starting...");
         showAboutWhenClicked();
@@ -94,28 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                 setTvResult();
 
-                String dataAddress = "http://data.fixer.io/api/latest?access_key=b70449fc1a6ad33f2940bfdbcf125c41";
-
-                HttpURLConnection connection;
-
-                try{
-                    URL url = new URL(dataAddress);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.connect();
-
-                    InputStream stream = connection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
-
-                    String line = 
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, e.toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, e.toString());
-                }
+              new JSONTask().execute("http://data.fixer.io/api/latest?access_key=b70449fc1a6ad33f2940bfdbcf125c41");
                 // tvResult.setText(result);
             }
         });
@@ -126,14 +105,56 @@ public class MainActivity extends AppCompatActivity {
 
     public class JSONTask extends AsyncTask<String, String, String>{
         @Override
-        protected String doInBackground(String... strings) {
-            return null;
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
 
+
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+
+                String line = "";
+
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+             return buffer.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Log.e(TAG, e.toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, e.toString());
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, e.toString());
+
+                }
+            }
+                return  null;
         }
 
+
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            tvResult.setText(result);// show json array in textview
+
         }
     }
 }
